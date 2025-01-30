@@ -1,6 +1,6 @@
 
 /*
- * *** PLACE YOUR NAME / SECTION  HERE ***
+ * *** BEN FLOWERS / COMP 272/400C-002 - Spring 2025 ***
  *
  * Homework # 1 (Programming Assignment). This Java class defines some basic
  * manipulation operations on Linked-Lists and Stacks.
@@ -38,11 +38,12 @@ public class HW1 {
             int data;
             Node next;
 
-            Node(int d)  {        // Constructor
+            Node(int d) {        // Constructor
                 data = d;
                 next = null;
             }
         }
+
         Node head;                // head of Linked-list
 
 
@@ -53,13 +54,13 @@ public class HW1 {
          * the linked-list.
          *
          */
-        public void sortedInsert ( int data ) {
+        public void sortedInsert(int data) {
             Node new_node = new Node(data);
 
             new_node.next = null;
 
             // Special case for head node.
-            if (this.head == null || head.data >= new_node.data ) {
+            if (this.head == null || head.data >= new_node.data) {
                 new_node.next = head;
                 head = new_node;
             } else {
@@ -85,9 +86,32 @@ public class HW1 {
          * The method will invoke the method removeElements for each element
          * found in the linked-list that is less than thr parameter value passed.
          */
-        public void removeElementsLT ( int ltValue ) {
+        public void removeElementsLT(int ltValue) {
 
-            // YOUR CODE GOES HERE
+            boolean done = false;
+
+            while (!done) {
+                if (head == null) {
+                    done = true;
+                }
+                // remove nodes at the beginning if they're less than ltValue
+                else if (head.data < ltValue) {
+                    head = head.next;
+                } else {
+                    // traverse the remaining list
+                    Node current = head;
+                    while (current.next != null) {
+                        if (current.next.data < ltValue) {
+                            // skip the node that is less than ltValue
+                            current.next = current.next.next;
+                        } else {
+                            // move to next node only if we didn't remove a node
+                            current = current.next;
+                        }
+                    }
+                    done = true;
+                }
+            }
 
             return;
         }
@@ -98,10 +122,30 @@ public class HW1 {
          * value equal to the value the provided parameter 'value'.
          */
 
-        public void removeElement ( int value ) {
-
-            // YOUR CODE GOES HERE
-
+        public void removeElement(int value) {
+            boolean done = false;
+            while (!done) {
+                if (head == null) {
+                    done = true;
+                }
+                // Remove nodes at the beginning if they match the value
+                else if (head.data == value) {
+                    head = head.next;
+                } else {
+                    // Traverse the remaining list
+                    Node current = head;
+                    while (current.next != null) {
+                        if (current.next.data == value) {
+                            // Skip the node that matches the value
+                            current.next = current.next.next;
+                        } else {
+                            // Move to next node only if we didn't remove a node
+                            current = current.next;
+                        }
+                    }
+                    done = true;
+                }
+            }
             return;
         }
 
@@ -110,7 +154,7 @@ public class HW1 {
          * Method toString() - this is a helper method for printing / constructing
          * a string object from the linked-list.
          */
-        public String toString () // Method to output the LinkedList as a String
+        public String toString() // Method to output the LinkedList as a String
         {
             String output = "[";
             Node currNode = this.head;
@@ -159,9 +203,21 @@ public class HW1 {
 
             Stack<Character> stack = new Stack<>();
             input = input.toLowerCase().replaceAll("\\s+", "");
+            // Push first half of characters onto stack
+            for (int i = 0; i < input.length() / 2; i++) {
+                stack.push(input.charAt(i));
+            }
 
-            // Your CODE GOES HERE
-            return false;
+            // For odd length strings, skip middle character
+            int startIndex = (input.length() % 2 == 0) ? input.length() / 2 : input.length() / 2 + 1;
+
+            // Compare second half with popped characters from stack
+            for (int i = startIndex; i < input.length(); i++) {
+                if (stack.isEmpty() || stack.pop() != input.charAt(i)) {
+                    return false;
+                }
+            }
+            return stack.isEmpty();
         }
 
 
@@ -181,67 +237,88 @@ public class HW1 {
          * completed, place them all back in teh original stack.
          */
         public static int findLargestK(Stack<Integer> stack, int k) {
+            if (stack.isEmpty()) {
+                return -1;
+            }
 
-            // YOUR CODE GOES HERE
-            return -1;
+            Stack<Integer> tempStack = new Stack<>();
+            int largestIndex = -1;
+            int currentIndex = stack.size() - 1;
+
+            while (!stack.isEmpty()) {
+                int current = stack.pop();
+                tempStack.push(current);
+
+                if (current == k && largestIndex == -1) {
+                    largestIndex = currentIndex;
+                }
+
+                currentIndex--;
+            }
+
+            while (!tempStack.isEmpty()) {
+                stack.push(tempStack.pop());
+            }
+
+            return largestIndex;
+
+
+
+        }  // End class Stacks
+
+
+        /*******************************
+         *
+         * Algorithm Analysis
+         *
+         * Below are two methods, algorithmAnalysis1 and algorithmAnalysis2.
+         * Modify the return statement to return the correct option number.
+         *
+         *********************************/
+
+        public static int algorithmAnalysis1(int n, int m) {
+            int a = 0, b = 0;
+
+            for (int i = 0; i < n; i++)
+                a += Math.random();
+
+            for (int j = 0; j < m; j++)
+                b += Math.random();
+
+            /*
+             * Select the correct option listed below:
+             *   1. O(N * M) time, O(1) space
+             *   2. O(N + M) time, O(N + M) space
+             *   3. O(N + M) time, O(1) space
+             *   4. O(N * M) time, O(N + M) space
+             *
+             * TODO: return the answer (which option is correct), in the return statement
+             */
+
+            // RETURN THE CORRECT OPTION NUMBER LISTED ABOVE
+            return 3;
         }
 
-    }  // End class Stacks
 
+        public static int algorithmAnalysis2(int n) {
+            int i, j, k = 0;
+            for (i = n / 2; i <= n; i++)
+                for (j = 2; j <= n; j = j * 2)
+                    k += n / 2;
 
+            /*
+             * Select the correct option listed below:
+             *   1. O(N) time
+             *   2. O(N log N) time
+             *   3. O(N^2) time
+             *   4. O(N^2Log n) time
+             *
+             * TODO: return the answer (which option is correct), in the return statement
+             */
 
-    /*******************************
-     *
-     * Algorithm Analysis
-     *
-     * Below are two methods, algorithmAnalysis1 and algorithmAnalysis2.
-     * Modify the return statement to return the correct option number.
-     *
-     *********************************/
+            // RETURN THE CORRECT OPTION LISTED ABOVE
+            return 2;
+        }
 
-    public static int algorithmAnalysis1(int n, int m) {
-        int a = 0, b = 0;
-
-        for (int i=0; i < n; i++)
-            a+= Math.random();
-
-        for (int j=0; j < m; j++)
-            b+= Math.random();
-
-        /*
-         * Select the correct option listed below:
-         *   1. O(N * M) time, O(1) space
-         *   2. O(N + M) time, O(N + M) space
-         *   3. O(N + M) time, O(1) space
-         *   4. O(N * M) time, O(N + M) space
-         *
-         * TODO: return the answer (which option is correct), in the return statement
-        */
-
-        // RETURN THE CORRECT OPTION NUMBER LISTED ABOVE
-        return -1;
     }
-
-
-    public static int algorithmAnalysis2(int n) {
-        int i, j, k = 0;
-        for (i = n/2; i <= n; i++)
-            for ( j = 2; j <= n; j = j*2 )
-                k+= n/2;
-
-        /*
-         * Select the correct option listed below:
-         *   1. O(N) time
-         *   2. O(N log N) time
-         *   3. O(N^2) time
-         *   4. O(N^2Log n) time
-         *
-         * TODO: return the answer (which option is correct), in the return statement
-         */
-
-        // RETURN THE CORRECT OPTION LISTED ABOVE
-        return -1;
-    }
-
 }
-
