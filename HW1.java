@@ -241,7 +241,7 @@ public class HW1 {
                 return -1;
             }
 
-            //temporary stack to hold elements while i am iterating
+            //temporary stack to hold elements while iterating
             Stack<Integer> tempStack = new Stack<>();
             int largestIndex = -1;
             int currentIndex = stack.size() - 1;
