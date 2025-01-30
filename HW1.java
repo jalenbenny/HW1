@@ -128,18 +128,18 @@ public class HW1 {
                 if (head == null) {
                     done = true;
                 }
-                // Remove nodes at the beginning if they match the value
+                // remove nodes at the beginning if they match the value
                 else if (head.data == value) {
                     head = head.next;
                 } else {
-                    // Traverse the remaining list
+                    // traverse the remaining list
                     Node current = head;
                     while (current.next != null) {
                         if (current.next.data == value) {
-                            // Skip the node that matches the value
+                            // skip the node that matches the value
                             current.next = current.next.next;
                         } else {
-                            // Move to next node only if we didn't remove a node
+                            // move to next node only if a node isn't removed
                             current = current.next;
                         }
                     }
@@ -203,15 +203,15 @@ public class HW1 {
 
             Stack<Character> stack = new Stack<>();
             input = input.toLowerCase().replaceAll("\\s+", "");
-            // Push first half of characters onto stack
+            // push first half of characters onto stack
             for (int i = 0; i < input.length() / 2; i++) {
                 stack.push(input.charAt(i));
             }
 
-            // For odd length strings, skip middle character
+            // skip middle character for odd length strings
             int startIndex = (input.length() % 2 == 0) ? input.length() / 2 : input.length() / 2 + 1;
 
-            // Compare second half with popped characters from stack
+            // compare second half with popped characters from stack
             for (int i = startIndex; i < input.length(); i++) {
                 if (stack.isEmpty() || stack.pop() != input.charAt(i)) {
                     return false;
@@ -237,30 +237,32 @@ public class HW1 {
          * completed, place them all back in teh original stack.
          */
         public static int findLargestK(Stack<Integer> stack, int k) {
-            if (stack.isEmpty()) {
+            if (stack.isEmpty()) { // check if stack is empty
                 return -1;
             }
 
+            //temporary stack to hold elements while i am iterating
             Stack<Integer> tempStack = new Stack<>();
             int largestIndex = -1;
             int currentIndex = stack.size() - 1;
 
+            //iterate through stack
             while (!stack.isEmpty()) {
-                int current = stack.pop();
-                tempStack.push(current);
+                int current = stack.pop(); // pop element from stack
+                tempStack.push(current); // push to temp stack
 
-                if (current == k && largestIndex == -1) {
-                    largestIndex = currentIndex;
+                if (current == k && largestIndex == -1) { // if k is current element and hasn't been found, 
+                    largestIndex = currentIndex; // update largest index
                 }
 
-                currentIndex--;
+                currentIndex--; // decrease current index during movement through stack
             }
 
-            while (!tempStack.isEmpty()) {
+            while (!tempStack.isEmpty()) { // push elements back from tempStack to restore original stack
                 stack.push(tempStack.pop());
             }
 
-            return largestIndex;
+            return largestIndex; // largest index where k is found
 
 
 
